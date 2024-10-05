@@ -90,3 +90,21 @@ const updatedPeople = people.map((person) => {
 // Output the updated results
 console.log('Updated people with new pets:');
 console.log(updatedPeople);
+
+/*
+Task: Create an array of 10 elements filled with the number 42, 
+insert the word "answer" at the 5th position using splice,
+and find that word using find.
+*/
+
+// Create an array of 10 elements filled with 42
+const array = new Array(10).fill(42);
+
+// Insert the word "answer" at the 5th position (index 4)
+array.splice(4, 0, 'answer');
+
+// Use find to search for the word "answer"
+const foundWord = array.find((element) => element === 'answer');
+
+// Output the found word
+console.log('Found word:', foundWord);

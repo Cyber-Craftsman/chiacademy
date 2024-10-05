@@ -72,3 +72,21 @@ const olderThan20 = people.filter((person) => person.age > 20);
 // Output the filtered results
 console.log('People older that 20:');
 console.log(olderThan20);
+
+/*
+Task: Use map to iterate over the array of objects from the previous task
+and add a new pet to each person. Output the result in the console.
+*/
+
+// Use map to add a new pet to each person
+const updatedPeople = people.map((person) => {
+  return {
+    name: person.name,
+    age: person.age,
+    pets: person.pets.concat('lizard'),
+  };
+});
+
+// Output the updated results
+console.log('Updated people with new pets:');
+console.log(updatedPeople);

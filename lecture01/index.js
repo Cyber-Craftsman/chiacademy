@@ -110,7 +110,8 @@ const foundWord = array.find((element) => element === 'answer');
 console.log('Found word:', foundWord);
 
 /*
-Task: Create an object with several keys and demonstrate the usage of Object.keys, Object.values, and hasOwnProperty methods.
+Task: Create an object with several keys and demonstrate the usage of 
+Object.keys, Object.values, and hasOwnProperty methods.
 */
 
 // Create an object with several keys

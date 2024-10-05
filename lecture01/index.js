@@ -108,3 +108,31 @@ const foundWord = array.find((element) => element === 'answer');
 
 // Output the found word
 console.log('Found word:', foundWord);
+
+/*
+Task: Create an object with several keys and demonstrate the usage of Object.keys, Object.values, and hasOwnProperty methods.
+*/
+
+// Create an object with several keys
+const person = {
+  name: 'Alice',
+  age: 30,
+  occupation: 'Engineer',
+  hobbies: ['programing', 'travelling'],
+  isEmployed: true,
+};
+
+// Using Object.keys to get an array of the object's keys
+const keys = Object.keys(person);
+console.log('Keys:', keys);
+
+// Using Object.values to get an array of the object's values
+const values = Object.values(person);
+console.log('Values:', values);
+
+// Using hasOwnProperty to check if the object has a specific property
+const hasOccupation = person.hasOwnProperty('occupation');
+const hasSalary = person.hasOwnProperty('salary');
+
+console.log('Has occupation', hasOccupation);
+console.log('Has salary', hasSalary);

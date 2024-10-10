@@ -50,3 +50,45 @@ console.log(result2);
 
 const result3 = sendData({ temperature: 22, humidity: 60, city: 'New York' });
 console.log(result3);
+
+/*
+ * Contexts and 'this':
+ *
+ * You have an object with a method `getData` that logs a person's name and age.
+ * Your task is to call this method in such a way that the name and age are specified.
+ * The actual values of the name and age do not matter.
+ *
+ * Afterward, create a function that will invoke this method each time it is called.
+ *
+ * Example:
+ *
+ * const obj = {
+ *   getData: function () {
+ *     console.log(`Person name is: ${this.name} and age ${this.age}`);
+ *   }
+ * };
+ *
+ * The `getData` method should output the provided name and age.
+ * Then, create a function that continuously invokes this method.
+ */
+
+// Creating an object with the getData method
+const obj = {
+  name: 'Alice',
+  age: 25,
+  getData: function () {
+    console.log(`Person name is: ${this.name} and age ${this.age}`);
+  },
+};
+
+// Directly invoking the getData method of the object
+obj.getData();
+
+// Creating a function that will repeatedly call obj.getData
+const getPersonInfo = function () {
+  obj.getData();
+};
+
+// Now calling the new function, which will call the getData method each time
+getPersonInfo();
+getPersonInfo();

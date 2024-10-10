@@ -192,3 +192,141 @@ function findFiles(node) {
 
 const files = findFiles(root);
 console.log(files);
+
+/*
+ * ES5 Implementation:
+ *
+ * Create a base object "Person" with properties:
+ * - name
+ * - phone
+ *
+ * Include a method "introduce" that logs:
+ * "Hi, my name is {name}, my number is {phone}."
+ *
+ * Create objects "Student" and "Teacher" that inherit from "Person".
+ *
+ * For "Student", add a property "course" and a method "study" that logs:
+ * "I study in {course} course."
+ *
+ * For "Teacher", add a property "subject" and a method "teach" that logs:
+ * "I teach {subject}."
+ */
+
+// Base constructor function for PersonES5
+function PersonES5(name, phone) {
+  this.name = name;
+  this.phone = phone;
+}
+
+// Method to introduce the person
+PersonES5.prototype.introduce = function () {
+  console.log(`Hi, my name is ${this.name}, my number is ${this.phone}.`);
+};
+
+// Constructor function for StudentES5
+function StudentES5(name, phone, course) {
+  PersonES5.call(this, name, phone); // Call the PersonES5 constructor
+  this.course = course;
+}
+
+// Inherit from PersonES5
+StudentES5.prototype = Object.create(PersonES5.prototype);
+StudentES5.prototype.constructor = StudentES5;
+
+// Method for StudentES5 to study
+StudentES5.prototype.study = function () {
+  console.log(`I study in ${this.course} course.`);
+};
+
+// Constructor function for TeacherES5
+function TeacherES5(name, phone, subject) {
+  PersonES5.call(this, name, phone); // Call the PersonES5 constructor
+  this.subject = subject;
+}
+
+// Inherit from PersonES5
+TeacherES5.prototype = Object.create(PersonES5.prototype);
+TeacherES5.prototype.constructor = TeacherES5;
+
+// Method for TeacherES5 to teach
+TeacherES5.prototype.teach = function () {
+  console.log(`I teach ${this.subject}.`);
+};
+
+// Create instances for ES5
+const studentES5 = new StudentES5('Alice', '123-456-7890', 2);
+const teacherES5 = new TeacherES5('Bob', '098-765-4321', 'Mathematics');
+
+// Test the methods for ES5 instances
+studentES5.introduce();
+studentES5.study();
+teacherES5.introduce();
+teacherES5.teach();
+
+/*
+ * ES6 Implementation:
+ *
+ * Create a base class "Person" with properties:
+ * - name
+ * - phone
+ *
+ * Include a method "introduce" that logs:
+ * "Hi, my name is {name}, my number is {phone}."
+ *
+ * Create classes "Student" and "Teacher" that extend "Person".
+ *
+ * For "Student", add a property "course" and a method "study" that logs:
+ * "I study in {course} course."
+ *
+ * For "Teacher", add a property "subject" and a method "teach" that logs:
+ * "I teach {subject}."
+ */
+
+// Base class for PersonES6
+class PersonES6 {
+  constructor(name, phone) {
+    this.name = name;
+    this.phone = phone;
+  }
+
+  // Method to introduce the person
+  introduce() {
+    console.log(`Hi, my name is ${this.name}, my number is ${this.phone}.`);
+  }
+}
+
+// Class for StudentES6 that extends PersonES6
+class StudentES6 extends PersonES6 {
+  constructor(name, phone, course) {
+    super(name, phone); // Call the PersonES6 constructor
+    this.course = course;
+  }
+
+  // Method for StudentES6 to study
+  study() {
+    console.log(`I study in ${this.course} course.`);
+  }
+}
+
+// Class for TeacherES6 that extends PersonES6
+class TeacherES6 extends PersonES6 {
+  constructor(name, phone, subject) {
+    super(name, phone); // Call the PersonES6 constructor
+    this.subject = subject;
+  }
+
+  // Method for TeacherES6 to teach
+  teach() {
+    console.log(`I teach ${this.subject}.`);
+  }
+}
+
+// Create instances for ES6
+const studentES6 = new StudentES6('Charlie', '987-654-3210', 3);
+const teacherES6 = new TeacherES6('David', '567-890-1234', 'Physics');
+
+// Test the methods for ES6 instances
+studentES6.introduce();
+studentES6.study();
+teacherES6.introduce();
+teacherES6.teach();

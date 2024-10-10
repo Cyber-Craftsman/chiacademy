@@ -92,3 +92,103 @@ const getPersonInfo = function () {
 // Now calling the new function, which will call the getData method each time
 getPersonInfo();
 getPersonInfo();
+
+/*
+ * Recursion:
+ *
+ * You have an object representing a file system structure with folders and files.
+ * Your task is to recursively traverse this object, find all files,
+ * and return their names in an array.
+ *
+ * Example:
+ *
+ * const root = {
+ *   name: 'name',
+ *   type: 'folder',
+ *   children: [
+ *     {
+ *       name: 'folder 1',
+ *       type: 'folder',
+ *       children: [
+ *         {
+ *           name: 'folder 2',
+ *           type: 'folder',
+ *           children: [
+ *             {
+ *               name: 'file 3',
+ *               type: 'file',
+ *               size: 30
+ *             }
+ *           ]
+ *         }
+ *       ]
+ *     },
+ *     {
+ *       name: 'file 1',
+ *       type: 'file',
+ *       size: 10
+ *     },
+ *     {
+ *       name: 'file 2',
+ *       type: 'file',
+ *       size: 20
+ *     }
+ *   ]
+ * };
+ *
+ * The function should return an array of file names:
+ * ['file 1', 'file 2', 'file 3']
+ */
+
+const root = {
+  name: 'name',
+  type: 'folder',
+  children: [
+    {
+      name: 'folder 1',
+      type: 'folder',
+      children: [
+        {
+          name: 'folder 2',
+          type: 'folder',
+          children: [
+            {
+              name: 'file 3',
+              type: 'file',
+              size: 30,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'file 1',
+      type: 'file',
+      size: 10,
+    },
+    {
+      name: 'file 2',
+      type: 'file',
+      size: 20,
+    },
+  ],
+};
+
+function findFiles(node) {
+  let fileNames = [];
+
+  // Check if the current node is a file
+  if (node.type === 'file') {
+    fileNames.push(node.name);
+  } else if (node.children) {
+    // If it's a folder, recursively search its children
+    node.children.forEach((child) => {
+      fileNames = fileNames.concat(findFiles(child));
+    });
+  }
+
+  return fileNames;
+}
+
+const files = findFiles(root);
+console.log(files);

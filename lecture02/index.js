@@ -72,26 +72,20 @@ console.log(result3);
  * Then, create a function that continuously invokes this method.
  */
 
-// Creating an object with the getData method
+// Define an object with a method that utilizes its context (`this`)
 const obj = {
-  name: 'Alice',
-  age: 25,
   getData: function () {
     console.log(`Person name is: ${this.name} and age ${this.age}`);
   },
 };
 
-// Directly invoking the getData method of the object
-obj.getData();
+// Use call() to invoke getData with specific context immediately
+obj.getData.call({ name: 'Alice', age: 25 });
 
-// Creating a function that will repeatedly call obj.getData
-const getPersonInfo = function () {
-  obj.getData();
-};
-
-// Now calling the new function, which will call the getData method each time
-getPersonInfo();
-getPersonInfo();
+// Bind getData to a specific context and create a reusable function
+const boundGetData = obj.getData.bind({ name: 'John', age: 30 });
+// Call the bound function
+boundGetData();
 
 /*
  * Recursion:

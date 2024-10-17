@@ -61,18 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add('character-card'); // Add class to the card
         card.dataset.id = character.id; // Store the character's ID in the dataset
         card.innerHTML = `
-                <img src="${character.image}" alt="${character.name}"> <!-- Character image -->
+                <img src="${character.image}" alt="${character.name}">
                 <div class="character-info">
-                    <h3>${character.name}</h3> <!-- Character name -->
+                    <h3>${character.name}</h3>
                 </div>
             `;
         characterList.appendChild(card); // Append the card to the character list
       });
+      // Check if there are more pages to load
+      loading = !data.info.next; // Set loading to true if no more pages, false otherwise
     } catch (error) {
       console.error('Error fetching characters:', error); // Log the error
       alert('Failed to load characters. Please try again later.'); // Inform the user
     } finally {
-      loading = false; // Ensure loading is reset
       loadingText.style.display = 'none'; // Hide the loading text
     }
   }

@@ -4,6 +4,7 @@ import MyAppBar from './components/AppBar.jsx';
 import NavBar from './components/NavBar.jsx';
 import Home from './pages/Home.jsx';
 import Heroes from './pages/Heroes.jsx';
+import SidePanel from './components/SidePanel.jsx';
 import About from './pages/About.jsx';
 import { Box, CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -26,7 +27,9 @@ const App = () => {
           <NavBar />
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/heroes' element={<Heroes />} />
+            <Route path='/heroes/*' element={<Heroes />}>
+              <Route path=':id' element={<SidePanel />} />
+            </Route>
             <Route path='/about' element={<About />} />
           </Routes>
         </Router>

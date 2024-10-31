@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import SidePanel from '../components/SidePanel.jsx';
+import { Outlet } from 'react-router-dom';
 
 const API_URL = 'https://rickandmortyapi.com/api/character';
 
@@ -12,8 +13,7 @@ const Heroes = () => {
   const [rows, setRows] = useState([]);
   const [rowCount, setRowCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [selectedCharacterId, setselectedCharacterId] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fetchCharacters = async (page) => {
     setLoading(true);
@@ -33,13 +33,7 @@ const Heroes = () => {
   }, [paginationModel.page]);
 
   const handleRowClick = (params) => {
-    setselectedCharacterId(params.id);
-    setDrawerOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-    setselectedCharacterId(null);
+    navigate(`/heroes/${params.id}`);
   };
 
   const columns = [
@@ -63,7 +57,7 @@ const Heroes = () => {
         getRowId={(row) => row.id}
         onRowClick={handleRowClick}
       />
-      <SidePanel isOpen={drawerOpen} onClose={handleDrawerClose} characterId={selectedCharacterId} />
+      <Outlet />
     </Box>
   );
 };

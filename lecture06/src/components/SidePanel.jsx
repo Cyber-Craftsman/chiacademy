@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '@fontsource/roboto';
-import { Box, Drawer, Toolbar, Typography, CircularProgress } from '@mui/material';
+import { Box, SwipeableDrawer, Toolbar, Typography, CircularProgress } from '@mui/material';
 
 const API_URL = 'https://rickandmortyapi.com/api/character';
 const drawerWidth = 300;
 
-const SidePanel = ({ isOpen, onClose, characterId }) => {
+const SidePanel = () => {
+  const { id: characterId } = useParams();
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (characterId) {
@@ -17,6 +21,7 @@ const SidePanel = ({ isOpen, onClose, characterId }) => {
         try {
           const response = await axios.get(`${API_URL}/${characterId}`);
           setCharacter(response.data);
+          setOpen(true);
         } catch (error) {
           console.error('Error fetching character details:', error);
         } finally {
@@ -24,14 +29,24 @@ const SidePanel = ({ isOpen, onClose, characterId }) => {
         }
       };
       fetchCharacter();
+    } else {
+      setOpen(false);
     }
   }, [characterId]);
 
+  const handleDrawerClose = () => {
+    setOpen(false);
+    setTimeout(() => {
+      navigate('/heroes');
+    }, 300);
+  };
+
   return (
-    <Drawer
+    <SwipeableDrawer
       anchor='right'
-      open={isOpen}
-      onClose={onClose}
+      open={open}
+      onClose={handleDrawerClose}
+      onOpen={() => setOpen(true)}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -60,7 +75,7 @@ const SidePanel = ({ isOpen, onClose, characterId }) => {
           </Box>
         )
       )}
-    </Drawer>
+    </SwipeableDrawer>
   );
 };
 

@@ -1,51 +1,49 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/slices/userSlice';
+import { register } from '../../store/slices/userSlice';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
-    username: Yup.string().max(4, 'Username must be at most 4 characters').required('Username is required'),
-    password: Yup.string().max(4, 'Password must be at most 4 characters').required('Password is required'),
+    username: Yup.string().max(20, 'Username must be at most 20 characters').required('Username is required'),
+    password: Yup.string().max(20, 'Password must be at most 20 characters').required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    const action = await dispatch(login(values));
+  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+    const action = await dispatch(register(values));
     setSubmitting(false);
 
     if (action.meta.requestStatus === 'fulfilled') {
-      localStorage.setItem('token', action.payload.access_token);
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          id: action.payload.userId,
-          username: action.payload.userName,
-        })
-      );
-      navigate('/myposts');
+      localStorage.setItem('token', action.payload.token);
+      navigate('/home');
+    } else if (action.payload) {
+      setFieldError('username', action.payload.message || 'Registration failed');
     } else {
-      alert(`Login failed: ${action.payload.message || 'Please try again.'}`);
+      alert(`Registration failed: Please try again.`);
     }
   };
 
-  const handleRegister = () => {
-    navigate('/register');
+  const handleLogin = () => {
+    navigate('/login');
   };
 
   return (
     <Container maxWidth='xs'>
       <Box sx={{ mt: 8 }}>
         <Typography variant='h4' component='h1' gutterBottom>
-          Login
+          Register
         </Typography>
         <Formik
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ username: '', password: '', confirmPassword: '' }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -70,6 +68,16 @@ const LoginForm = () => {
                 error={touched.password && !!errors.password}
                 helperText={<ErrorMessage name='password' />}
               />
+              <Field
+                name='confirmPassword'
+                as={TextField}
+                label='Confirm Password'
+                type='password'
+                fullWidth
+                margin='normal'
+                error={touched.confirmPassword && !!errors.confirmPassword}
+                helperText={<ErrorMessage name='confirmPassword' />}
+              />
               <Button
                 type='submit'
                 variant='contained'
@@ -78,17 +86,17 @@ const LoginForm = () => {
                 sx={{ mt: 2 }}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? <CircularProgress size={24} /> : 'Login'}
+                {isSubmitting ? <CircularProgress size={24} /> : 'Register'}
               </Button>
             </Form>
           )}
         </Formik>
-        <Button variant='text' color='primary' onClick={handleRegister} sx={{ mt: 2 }}>
-          Don't have an account? Register here
+        <Button variant='text' color='primary' onClick={handleLogin} sx={{ mt: 2 }}>
+          Already have an account? Login here
         </Button>
       </Box>
     </Container>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

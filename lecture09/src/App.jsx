@@ -4,14 +4,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './store/slices/userSlice';
-import LoginForm from './components/LoginForm.jsx';
-import RegisterForm from './components/RegisterForm.jsx';
-import MyPostsPage from './layouts/MyPostsPage.jsx';
-import AllPostsPage from './layouts/AllPostsPage.jsx';
+import LoginPage from './pages/auth/LoginPage.jsx';
+import RegisterPage from './pages/auth/RegisterPage.jsx';
+import MyPostsPage from './pages/MyPostsPage.jsx';
+import AllPostsPage from './pages/AllPostsPage.jsx';
+import NewPostPage from './pages/NewPostPage.jsx';
 import AppBarComponent from './components/AppBar.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { NotificationProvider } from './components/Notification.jsx';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme();
@@ -33,8 +34,8 @@ const App = () => {
         <AppBarComponent onLogout={handleLogout} />
         <Routes>
           <Route path='/' element={<AllPostsPage />} />
-          <Route path='/login' element={<LoginForm />} />
-          <Route path='/register' element={<RegisterForm />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
           <Route
             path='/myposts'
             element={
@@ -43,9 +44,17 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path='/newpost'
+            element={
+              <ProtectedRoute isAllowed={!!currentUser}>
+                <NewPostPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
+        <ToastContainer position='top-right' autoClose={5000} hideProgressBar />
       </NotificationProvider>
-      <ToastContainer />
     </ThemeProvider>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import Comment from './Comment.jsx';
-import { fetchComments, addComment, deleteComment } from '../api/commentActions.js';
+import { fetchComments, addComment, deleteComment } from '../../api/commentActions.js';
 import { useSelector } from 'react-redux';
 
 const CommentList = ({ postId }) => {

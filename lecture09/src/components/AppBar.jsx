@@ -6,6 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ListIcon from '@mui/icons-material/List';
+import AddCircleIcon from '@mui/icons-material/AddCircle'; // Імпорт нової іконки
 
 const AppBarComponent = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -72,6 +73,10 @@ const AppBarComponent = ({ onLogout }) => {
                 <MenuItem onClick={() => handleNavigation('/myposts')} sx={{ padding: '10px 20px', minHeight: '48px' }}>
                   <PostAddIcon fontSize='small' sx={{ mr: 1 }} />
                   My Posts
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation('/newpost')} sx={{ padding: '10px 20px', minHeight: '48px' }}>
+                  <AddCircleIcon fontSize='small' sx={{ mr: 1 }} /> {/* Використання нової іконки */}
+                  Create Post
                 </MenuItem>
                 <MenuItem
                   onClick={() => {

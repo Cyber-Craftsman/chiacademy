@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardMedia, Typography, Box, Avatar, Collapse, IconButton } from '@mui/material';
+import { Card, CardContent, CardMedia, IconButton, Typography, Box, Avatar, Collapse } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CommentList from './CommentList.jsx';
+import CommentList from '../comments/CommentList.jsx';
 
-const Post = ({ post }) => {
+const Post = ({ post, currentUser, onDelete, isSubmitting }) => {
   const [expanded, setExpanded] = useState(false);
-  const baseURL = process.env.REACT_APP_API_URL; // Отримання базового URL з змінної середовища
-  const imageSrc = `${baseURL}${post.imageUrl}`; // Побудова повного URL зображення
+  const baseURL = process.env.REACT_APP_API_URL;
+  const imageSrc = `${baseURL}${post.imageUrl}`;
 
   const handleExpandClick = () => {
     setExpanded((prevExpanded) => !prevExpanded);
   };
+
+  const isPostOwner = currentUser && post.user && currentUser.id === post.user.id;
 
   return (
     <Card sx={{ mb: 2, maxWidth: 800, mx: 'auto' }}>
@@ -27,7 +30,7 @@ const Post = ({ post }) => {
         component='img'
         sx={{ maxWidth: '100%', height: 'auto' }}
         image={imageSrc}
-        alt={post.description || 'Post Image'} // Використовуйте резервний текст
+        alt={post.description || 'Post Image'}
       />
       <CardContent sx={{ p: 1 }}>
         <Typography variant='body2' color='text.secondary'>
@@ -43,6 +46,11 @@ const Post = ({ post }) => {
             />
           </IconButton>
         </Box>
+        {isPostOwner && onDelete && (
+          <IconButton aria-label='delete' onClick={() => onDelete(post.id)} disabled={isSubmitting} sx={{ mt: 2 }}>
+            <DeleteIcon />
+          </IconButton>
+        )}
       </CardContent>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>

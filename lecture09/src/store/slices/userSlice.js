@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { loginUser, registerUser } from '../../api/userActions';
 
-// Асинхронні дії для логіну та реєстрації
 export const login = createAsyncThunk('user/login', async (credentials, thunkAPI) => {
   try {
     const response = await loginUser(credentials);
